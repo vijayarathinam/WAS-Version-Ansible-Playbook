@@ -1,0 +1,13 @@
+---
+- name: Get WebSphere Application Server version
+  hosts: was_servers
+  become: yes
+  tasks:
+    - name: Check WebSphere version
+      shell: |
+        su - wasadmin -c '/opt/IBM/WebSphere/AppServer/bin/versionInfo.sh | grep "Version"'
+      register: was_version_output
+
+    - name: Print WebSphere version
+      debug:
+        msg: "WebSphere Application Server version on {{ inventory_hostname }}: {{ was_version_output.stdout }}"
